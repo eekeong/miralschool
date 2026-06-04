@@ -2252,3 +2252,70 @@ select.form-input {
     padding: 30px 20px;
   }
 }
+
+/* --- SITE-WIDE ANIMATIONS --- */
+.animate-on-scroll {
+  opacity: 0;
+  transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.animate-on-scroll.is-visible {
+  opacity: 1;
+  transform: translate(0) scale(1) !important;
+}
+
+.anim-fade-up {
+  transform: translateY(40px);
+}
+
+.anim-scale-in {
+  transform: scale(0.85) translateY(20px);
+}
+
+.anim-fade-right {
+  transform: translateX(-40px);
+}
+
+.delay-100 { transition-delay: 100ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; }
+.delay-400 { transition-delay: 400ms; }
+
+@keyframes floatY {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+  100% { transform: translateY(0); }
+}
+
+.float-anim {
+  animation: floatY 4s ease-in-out infinite;
+}
+
+/* Special float rules for mascots that already have transforms */
+.course-card.theme-innovator .mascot-area img.float-anim {
+  animation: floatY-innovator-desktop 4s ease-in-out infinite;
+}
+@keyframes floatY-innovator-desktop {
+  0% { transform: translateX(10px) translateY(0); }
+  50% { transform: translateX(10px) translateY(-12px); }
+  100% { transform: translateX(10px) translateY(0); }
+}
+
+@media (max-width: 480px) {
+  .course-card.theme-innovator .mascot-area img.float-anim {
+    animation: floatY-innovator-mobile 4s ease-in-out infinite;
+  }
+  @keyframes floatY-innovator-mobile {
+    0% { transform: translateX(0px) translateY(0); }
+    50% { transform: translateX(0px) translateY(-12px); }
+    100% { transform: translateX(0px) translateY(0); }
+  }
+}
+
+.glow-on-hover {
+  transition: all 0.3s ease;
+}
+.glow-on-hover:hover {
+  box-shadow: 0 0 20px rgba(223, 15, 18, 0.5), 0 0 40px rgba(223, 15, 18, 0.3);
+  transform: scale(1.02);
+}

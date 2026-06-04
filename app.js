@@ -480,4 +480,25 @@ document.addEventListener("DOMContentLoaded", () => {
     // Initial UI state
     updateQuizUI();
   }
+
+  // --- SCROLL ANIMATIONS (INTERSECTION OBSERVER) ---
+  const scrollAnimElements = document.querySelectorAll('.animate-on-scroll');
+  
+  const animObserverOptions = {
+    threshold: 0.1,
+    rootMargin: "0px 0px -50px 0px"
+  };
+
+  const animObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, animObserverOptions);
+
+  scrollAnimElements.forEach(el => {
+    animObserver.observe(el);
+  });
 });
