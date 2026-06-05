@@ -492,7 +492,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const animObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
+        setTimeout(() => {
+          entry.target.classList.add('is-visible');
+        }, 500); // 0.5-second delay
         observer.unobserve(entry.target);
       }
     });
@@ -501,4 +503,148 @@ document.addEventListener("DOMContentLoaded", () => {
   scrollAnimElements.forEach(el => {
     animObserver.observe(el);
   });
+
+  // --- CODING OLYMPICS CIRCULAR GALLERY ---
+  const galleryContainer = document.getElementById("circularGallery");
+  if (galleryContainer) {
+    const olympicsImages = [
+      "1.jpg", "13.jpg", "15.jpg", "19.jpg", "20.jpg", "3.jpg", 
+      "4.jpg", "5-1.jpg", "6.jpg", "64.jpg", "65.jpg", "7.jpg", "9.jpg"
+    ];
+    
+    let radius = window.innerWidth <= 768 ? 500 : 650;
+    const anglePerItem = 360 / olympicsImages.length;
+    
+    const itemElements = olympicsImages.map((imgName, i) => {
+      const itemAngle = i * anglePerItem;
+      const div = document.createElement("div");
+      div.className = "gallery-item";
+      
+      div.innerHTML = `
+        <div class="gallery-item-inner">
+          <img src="assets/coding olympics/${imgName}" alt="Coding Olympics">
+        </div>
+      `;
+      galleryContainer.appendChild(div);
+      return { el: div, angle: itemAngle };
+    });
+
+    let rotation = 0;
+    let isScrolling = false;
+    let scrollTimeout = null;
+    let autoRotateSpeed = 0.04;
+    let lastScrollY = window.scrollY;
+
+    window.addEventListener('scroll', () => {
+      isScrolling = true;
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+      
+      const currentScrollY = window.scrollY;
+      const deltaY = currentScrollY - lastScrollY;
+      lastScrollY = currentScrollY;
+      
+      rotation += deltaY * 0.15; // Speed multiplier for scroll
+      
+      scrollTimeout = setTimeout(() => {
+        isScrolling = false;
+      }, 150);
+    }, { passive: true });
+
+    function autoRotate() {
+      if (!isScrolling) {
+        rotation += autoRotateSpeed;
+      }
+      
+      const isMobile = window.innerWidth <= 768;
+      const rotateAxis = isMobile ? 'X' : 'Y';
+      const offsetZ = isMobile ? -250 : 0;
+      
+      galleryContainer.style.transform = `translateZ(${offsetZ}px) rotate${rotateAxis}(${rotation}deg)`;
+      const totalRotation = rotation % 360;
+      
+      itemElements.forEach(item => {
+        const relativeAngle = (item.angle + totalRotation + 360) % 360;
+        const normalizedAngle = Math.abs(relativeAngle > 180 ? 360 - relativeAngle : relativeAngle);
+        const opacity = Math.max(0.3, 1 - (normalizedAngle / 180));
+        
+        item.el.style.transform = `rotate${rotateAxis}(${item.angle}deg) translateZ(${radius}px)`;
+        item.el.style.opacity = opacity;
+      });
+      
+      requestAnimationFrame(autoRotate);
+    }
+
+    requestAnimationFrame(autoRotate);
+    
+    // Handle resize
+    window.addEventListener('resize', () => {
+      radius = window.innerWidth <= 768 ? 500 : 650;
+    });
+  }
+
+  // --- VIDEO MUTE TOGGLE ---
+  const miraiVideo = document.getElementById('miraiVideo');
+  const muteBtn = document.getElementById('muteBtn');
+  const muteIcon = document.getElementById('muteIcon');
+  const unmuteIcon = document.getElementById('unmuteIcon');
+
+  if (miraiVideo && muteBtn) {
+    muteBtn.addEventListener('click', () => {
+      miraiVideo.muted = !miraiVideo.muted;
+      if (miraiVideo.muted) {
+        muteIcon.style.display = 'block';
+        unmuteIcon.style.display = 'none';
+      } else {
+        muteIcon.style.display = 'none';
+        unmuteIcon.style.display = 'block';
+      }
+    });
+  }
+
+  // --- STAT COUNTING ANIMATION ---
+  const statElements = document.querySelectorAll('.stat-count');
+  
+  const statObserverOptions = {
+    threshold: 0.5
+  };
+
+  const statObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const targetElement = entry.target;
+        const targetValue = parseInt(targetElement.getAttribute('data-target'), 10);
+        const suffix = targetElement.getAttribute('data-suffix') || '';
+        
+        let startTime = null;
+        const duration = 2000; // 2 seconds
+
+        function animateCount(timestamp) {
+          if (!startTime) startTime = timestamp;
+          const progress = timestamp - startTime;
+          const currentProgress = Math.min(progress / duration, 1);
+          
+          // Easing out function
+          const easeOutProgress = 1 - Math.pow(1 - currentProgress, 3);
+          
+          const currentValue = Math.floor(easeOutProgress * targetValue);
+          
+          targetElement.innerText = currentValue.toLocaleString() + suffix;
+          
+          if (progress < duration) {
+            requestAnimationFrame(animateCount);
+          } else {
+            targetElement.innerText = targetValue.toLocaleString() + suffix;
+          }
+        }
+        
+        requestAnimationFrame(animateCount);
+        observer.unobserve(targetElement); // Only animate once
+      }
+    });
+  }, statObserverOptions);
+
+  statElements.forEach(el => {
+    statObserver.observe(el);
+  });
+
 });

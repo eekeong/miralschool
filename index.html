@@ -17,8 +17,8 @@
           <a href="#" class="logo">
             <img src="assets/mirai%20logo.png" alt="MIRAI School Logo" class="logo-img" />
             <div class="logo-text">
-              <span class="logo-main">MIRAI</span>
-              <span class="logo-sub">SCHOOL</span>
+              <span class="logo-main">Mirai AI</span>
+              <span class="logo-sub">School</span>
             </div>
           </a>
 
@@ -48,8 +48,8 @@
       <!-- Hero Section -->
       <section class="hero" id="home">
         <div class="container hero-grid-wrapper">
-          <h1 class="animate-on-scroll anim-fade-up">
-            Prepare Your <br class="mobile-br" />Child<br class="desktop-br" /> for the <br class="mobile-br" /><span style="color: var(--white);">AI Generation</span>
+          <h1 class="animate-on-scroll anim-fade-up" style="color: var(--black);">
+            Equip to <br class="mobile-br" />compete <br class="desktop-br" />in <br class="mobile-br" /><span style="color: var(--white);">AI World</span>
           </h1>
           <p class="animate-on-scroll anim-fade-up delay-100">
             MIRAI AI School equips learners aged 7–25 with <br class="mobile-br" />AI, Coding and Robotics skills<br />to create, solve problems and prepare for the future.
@@ -104,15 +104,36 @@
               </div>
             </div>
 
-            <div class="value-item">
+            <div class="value-item animate-on-scroll anim-scale-in delay-300">
               <div class="value-icon" style="background: transparent;">
-                <img src="assets/Peppa.png" alt="Peppa" style="width: 64px; height: 64px; object-fit: contain;" />
+                <img src="assets/Peppa.png" alt="Peppa" class="float-anim delay-300" style="width: 64px; height: 64px; object-fit: contain;" />
               </div>
               <div class="value-text">
                 <h4>AI • Coding • Robotics</h4>
                 <p>Future skills for a<br />smarter tomorrow</p>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Intro Video Section -->
+      <section id="intro-video" class="video-section">
+        <div class="container">
+          <div class="video-wrapper animate-on-scroll anim-scale-in">
+            <video 
+              id="miraiVideo"
+              src="assets/Mirai%20AI%20School%20Website%20Video.mp4" 
+              autoplay 
+              muted 
+              loop
+              playsinline
+              class="mirai-video"
+            ></video>
+            <button id="muteBtn" class="mute-btn" aria-label="Toggle Mute">
+              <svg id="muteIcon" viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+              <svg id="unmuteIcon" viewBox="0 0 24 24" style="display:none;"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            </button>
           </div>
         </div>
       </section>
@@ -173,12 +194,153 @@
         </div>
       </section>
 
+      <!-- Global Impact -->
+      <section class="mirai-global-impact">
+        <div class="impact-container">
+
+          <div class="impact-copy" style="position: relative;">
+            <img src="assets/Peppa.png" alt="Peppa Mascot" class="mascot peppa-copy">
+            <img src="assets/Gordo.png" alt="Gordo Mascot" class="mascot gordo-copy">
+
+            <h2 style="text-align: center; position: relative; z-index: 10;">Built To Scale</h2>
+
+            <div class="impact-stats">
+              <div class="impact-stat-card" style="padding-top: 47px; padding-bottom: 47px;">
+                <h3 class="stat-count" style="color: #10b981;" data-target="45" data-suffix="M+">0M+</h3>
+                <p>Learners</p>
+              </div>
+
+              <div class="impact-stat-card" style="padding-top: 47px; padding-bottom: 47px;">
+                <h3 class="stat-count" style="color: #f97316;" data-target="350" data-suffix="K+">0K+</h3>
+                <p>Teachers</p>
+              </div>
+
+              <div class="impact-stat-card" style="padding-top: 47px; padding-bottom: 47px;">
+                <h3 class="stat-count" style="color: #8b5cf6;" data-target="42" data-suffix="">0</h3>
+                <p>Countries</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT GLOBE -->
+          <div class="impact-globe-wrap" style="position: relative;">
+            <div class="globe-card relative select-none">
+              <img src="assets/Eggy.png" alt="Eggy" class="mascot eggy-globe">
+              <img src="assets/Carrie.png" alt="Carrie" class="mascot carrie-globe">
+              <svg width="0" height="0" style="position: absolute;">
+                <defs>
+                  <filter id="sticker-outline">
+                    <feMorphology in="SourceAlpha" result="Dilated" operator="dilate" radius="2" />
+                    <feFlood floodColor="#ffffff" result="OutlineColor" />
+                    <feComposite in="OutlineColor" in2="Dilated" operator="in" result="Outline" />
+                    <feMerge>
+                      <feMergeNode in="Outline" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                </defs>
+              </svg>
+              <canvas id="cobe-canvas" style="width: 100%; height: 100%; cursor: grab; opacity: 0; transition: opacity 1.2s ease; border-radius: 50%; touch-action: none;"></canvas>
+              <!-- JS will inject stickers here -->
+            </div>
+          </div>
+
+        </div>
+
+        <div class="red-wave"></div>
+      </section>
+
+      <!-- Coding Olympics Circular Gallery -->
+      <section class="olympics-section">
+        <div class="olympics-scroll-container">
+          <div class="olympics-sticky-content">
+            <div class="olympics-header">
+              <h2>Compete Better. <br class="mobile-br"><span style="color: var(--red);">Grow Stronger.</span></h2>
+            </div>
+            <div class="circular-gallery-wrapper">
+              <div class="circular-gallery" id="circularGallery">
+                <!-- JS will inject gallery items here -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Clients Love Me (Testimonials) -->
+      <section id="testimonials" class="testimonials-section">
+        <div class="container testimonials-grid">
+          
+          <!-- Left Column: Sticky Content -->
+          <div class="testi-left animate-on-scroll anim-fade-up">
+            <h2 class="section-title testi-title-override">Testimonials</h2>
+
+            <div class="testi-actions">
+              <button class="btn btn-outline" onclick="window.location.href='#programmes'">See Programmes</button>
+              <button class="btn btn-red btn-open-booking" data-package="General Consultation">Contact Now</button>
+            </div>
+          </div>
+
+          <!-- Right Column: Container for the sticky card stack -->
+          <div class="testi-right">
+            
+            <!-- Card 1 -->
+            <div class="testi-card sticky-card" style="top: 100px; --card-color: var(--green);">
+              <div class="testi-author">
+                <div class="author-img" style="background-image: url('https://images.unsplash.com/photo-1752496906365-d5c662900cc1?w=1800&auto=format&fit=crop&q=100');"></div>
+                <div class="author-info">
+                  <p class="author-name">Will Smith</p>
+                  <p class="author-title">Parent</p>
+                </div>
+              </div>
+              <div class="testi-rating">
+                <span class="rating-num">5.0</span>
+                <div class="stars" style="color: var(--yellow);">★★★★★</div>
+              </div>
+              <p class="testi-quote">"The curriculum is incredible. My child learned more about robotics in a month than in a whole year of standard school computer classes."</p>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="testi-card sticky-card" style="top: 124px; --card-color: var(--orange);">
+              <div class="testi-author">
+                <div class="author-img" style="background-image: url('https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=900&auto=format&fit=crop&q=60');"></div>
+                <div class="author-info">
+                  <p class="author-name">Ikta Sollork</p>
+                  <p class="author-title">High School Student</p>
+                </div>
+              </div>
+              <div class="testi-rating">
+                <span class="rating-num">4.7</span>
+                <div class="stars" style="color: var(--yellow);">★★★★★</div>
+              </div>
+              <p class="testi-quote">"I built my first AI model here. The tutors are amazing and actually explain things so they make sense. Highly recommended!"</p>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="testi-card sticky-card" style="top: 148px; --card-color: var(--purple);">
+              <div class="testi-author">
+                <div class="author-img" style="background-image: url('https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=900&auto=format&fit=crop&q=60');"></div>
+                <div class="author-info">
+                  <p class="author-name">Alex Johnson</p>
+                  <p class="author-title">Parent</p>
+                </div>
+              </div>
+              <div class="testi-rating">
+                <span class="rating-num">4.9</span>
+                <div class="stars" style="color: var(--yellow);">★★★★★</div>
+              </div>
+              <p class="testi-quote">"A truly transformative learning environment. The focus on logical thinking and physical computing sets Mirai School apart."</p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
       <!-- Programme Packages -->
       <section id="programmes">
         <div class="container">
           <div class="section-header animate-on-scroll anim-fade-up">
             <h2 class="section-title">Programme Packages</h2>
-            <p class="section-subtitle">Structured paths designed to scale coding skills, physical computing logic, and artificial intelligence literacy.</p>
+            <p class="section-subtitle" style="padding-bottom: 10px;">Structured paths designed to scale coding skills, physical computing logic, and artificial intelligence literacy.</p>
           </div>
 
           <div class="programme-grid" id="programmeGrid">
@@ -687,8 +849,8 @@
           
           <div class="footer-brand animate-on-scroll anim-fade-up">
             <a href="#" class="logo" style="margin-bottom: 12px;">
-              <span class="logo-main">MIRAI</span>
-              <span class="logo-sub">SCHOOL</span>
+              <span class="logo-main">Mirai AI</span>
+              <span class="logo-sub">School</span>
             </a>
             <p>
               Empowering the next generation with future-proof competencies in AI, coding, and logical robotics.
@@ -833,5 +995,181 @@
   </div>
 
   <script src="app.js"></script>
+  <script type="module">
+    import createGlobe from 'https://cdn.skypack.dev/cobe';
+
+    const markers = [
+      { id: "Australia", location: [-25.27, 133.77] },
+      { id: "Azerbaijan", location: [40.14, 47.57] },
+      { id: "Chile", location: [-35.67, -71.54] },
+      { id: "Costa Rica", location: [9.74, -83.75] },
+      { id: "Cyprus", location: [35.12, 33.42] },
+      { id: "Dominican Republic", location: [18.73, -70.16] },
+      { id: "EU", location: [50.85, 4.35] },
+      { id: "Ecuador", location: [-1.83, -78.18] },
+      { id: "El Salvador", location: [13.79, -88.89] },
+      { id: "Finland", location: [61.92, 25.74] },
+      { id: "Georgia", location: [42.31, 43.35] },
+      { id: "Greece", location: [39.07, 21.82] },
+      { id: "Guatemala", location: [15.78, -90.23] },
+      { id: "Honduras", location: [15.19, -86.24] },
+      { id: "Israel", location: [31.04, 34.85] },
+      { id: "Japan", location: [36.20, 138.25] },
+      { id: "Kenya", location: [-0.02, 37.90] },
+      { id: "Laos", location: [19.85, 102.49] },
+      { id: "Mexico", location: [23.63, -102.55] },
+      { id: "Myanmar", location: [21.91, 95.95] },
+      { id: "New Zealand", location: [-40.90, 174.88] },
+      { id: "Nicaragua", location: [12.86, -85.20] },
+      { id: "Panamá", location: [8.53, -80.78] },
+      { id: "Puerto Rico", location: [18.22, -66.59] },
+      { id: "South Africa", location: [-30.55, 22.93] },
+      { id: "South Korea", location: [35.90, 127.76] },
+      { id: "Taiwan", location: [23.69, 120.96] },
+      { id: "Turkey", location: [38.96, 35.24] },
+      { id: "UK", location: [55.37, -3.43] },
+      { id: "Uzbekistan", location: [41.37, 64.58] },
+      { id: "brunei", location: [4.53, 114.72] },
+      { id: "cambodia", location: [12.56, 104.99] },
+      { id: "columbia", location: [4.57, -74.29] },
+      { id: "hongkong", location: [22.31, 114.16] },
+      { id: "india", location: [20.59, 78.96] },
+      { id: "indonesia", location: [-0.78, 113.92] },
+      { id: "malaysia", location: [4.21, 101.97] },
+      { id: "nepal", location: [28.39, 84.12] },
+      { id: "singapore", location: [1.35, 103.81] },
+      { id: "thailand", location: [15.87, 100.99] },
+      { id: "uganda", location: [1.37, 32.29] },
+      { id: "vietnam", location: [14.05, 108.27] },
+    ];
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const canvas = document.getElementById("cobe-canvas");
+      if (!canvas) return;
+
+      const container = canvas.parentElement;
+
+      // Create sticker elements dynamically
+      markers.forEach((m, i) => {
+        const idSafe = m.id.replace(/\s+/g, '-');
+        const div = document.createElement("div");
+        div.className = "cobe-sticker";
+        div.id = `sticker-${idSafe}`;
+        
+        const img = document.createElement("img");
+        img.src = `assets/flags/${m.id}.png`;
+        img.alt = `${m.id} flag`;
+        img.style.width = "28px";
+        img.style.height = "28px";
+        img.style.borderRadius = "50%";
+        img.style.border = "2px solid white";
+        img.style.objectFit = "cover";
+        img.style.boxShadow = "0 2px 4px rgba(0,0,0,0.2)";
+        div.appendChild(img);
+        
+        // Setup initial styles
+        Object.assign(div.style, {
+          positionAnchor: `--cobe-${idSafe}`,
+          bottom: "anchor(top)",
+          left: "anchor(center)",
+          translate: "-50% 0",
+          transform: `rotate(${[-8, 6, -4, 10][i % 4]}deg)`,
+          filter: "drop-shadow(0 4px 6px rgba(0,0,0,0.3))",
+          opacity: `var(--cobe-visible-${idSafe}, 0)`,
+        });
+
+        container.appendChild(div);
+      });
+
+      let globe = null;
+      let animationId = null;
+      let phi = 0;
+      let speed = 0.003;
+      
+      let pointerInteracting = null;
+      let dragOffset = { phi: 0, theta: 0 };
+      let phiOffset = 0;
+      let thetaOffset = 0;
+      let isPaused = false;
+
+      // Pointer events
+      canvas.addEventListener('pointerdown', (e) => {
+        pointerInteracting = { x: e.clientX, y: e.clientY };
+        canvas.style.cursor = "grabbing";
+        isPaused = true;
+      });
+
+      window.addEventListener('pointerup', () => {
+        if (pointerInteracting !== null) {
+          phiOffset += dragOffset.phi;
+          thetaOffset += dragOffset.theta;
+          dragOffset = { phi: 0, theta: 0 };
+        }
+        pointerInteracting = null;
+        canvas.style.cursor = "grab";
+        isPaused = false;
+      });
+
+      window.addEventListener('pointermove', (e) => {
+        if (pointerInteracting !== null) {
+          dragOffset = {
+            phi: (e.clientX - pointerInteracting.x) / 300,
+            theta: (e.clientY - pointerInteracting.y) / 1000,
+          };
+        }
+      });
+
+      function init() {
+        const width = canvas.offsetWidth;
+        if (width === 0 || globe) return;
+
+        globe = createGlobe(canvas, {
+          devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2),
+          width,
+          height: width,
+          phi: 0,
+          theta: 0.2,
+          dark: 0,
+          diffuse: 1.5,
+          mapSamples: 16000,
+          mapBrightness: 8,
+          baseColor: [1, 1, 1],
+          markerColor: [0.85, 0.35, 0.6],
+          glowColor: [0.94, 0.93, 0.91],
+          markerElevation: 0,
+          markers: markers.map((m) => ({ location: m.location, size: 0.03, id: m.id.replace(/\s+/g, '-') })),
+          arcs: [],
+          arcColor: [0.9, 0.4, 0.7],
+          arcWidth: 0.5,
+          arcHeight: 0.25,
+          opacity: 0.7,
+        });
+
+        function animate() {
+          if (!isPaused) phi += speed;
+          globe.update({
+            phi: phi + phiOffset + dragOffset.phi,
+            theta: 0.2 + thetaOffset + dragOffset.theta,
+          });
+          animationId = requestAnimationFrame(animate);
+        }
+        
+        animate();
+        setTimeout(() => { canvas.style.opacity = "1"; }, 100);
+      }
+
+      if (canvas.offsetWidth > 0) {
+        init();
+      } else {
+        const ro = new ResizeObserver((entries) => {
+          if (entries[0]?.contentRect.width > 0) {
+            ro.disconnect();
+            init();
+          }
+        });
+        ro.observe(canvas);
+      }
+    });
+  </script>
 </body>
 </html>
