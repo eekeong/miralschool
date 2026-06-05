@@ -535,6 +535,12 @@ document.addEventListener("DOMContentLoaded", () => {
     let autoRotateSpeed = 0.04;
     let lastScrollY = window.scrollY;
 
+    let isGalleryVisible = true;
+    const galleryObserver = new IntersectionObserver((entries) => {
+      isGalleryVisible = entries[0].isIntersecting;
+    });
+    galleryObserver.observe(galleryContainer);
+
     window.addEventListener('scroll', () => {
       isScrolling = true;
       if (scrollTimeout) clearTimeout(scrollTimeout);
@@ -543,7 +549,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const deltaY = currentScrollY - lastScrollY;
       lastScrollY = currentScrollY;
       
-      rotation += deltaY * 0.15; // Speed multiplier for scroll
+      if (isGalleryVisible) {
+        rotation += deltaY * 0.15; // Speed multiplier for scroll
+      }
       
       scrollTimeout = setTimeout(() => {
         isScrolling = false;
@@ -551,25 +559,27 @@ document.addEventListener("DOMContentLoaded", () => {
     }, { passive: true });
 
     function autoRotate() {
-      if (!isScrolling) {
-        rotation += autoRotateSpeed;
-      }
-      
-      const isMobile = window.innerWidth <= 768;
-      const rotateAxis = isMobile ? 'X' : 'Y';
-      const offsetZ = isMobile ? -250 : 0;
-      
-      galleryContainer.style.transform = `translateZ(${offsetZ}px) rotate${rotateAxis}(${rotation}deg)`;
-      const totalRotation = rotation % 360;
-      
-      itemElements.forEach(item => {
-        const relativeAngle = (item.angle + totalRotation + 360) % 360;
-        const normalizedAngle = Math.abs(relativeAngle > 180 ? 360 - relativeAngle : relativeAngle);
-        const opacity = Math.max(0.3, 1 - (normalizedAngle / 180));
+      if (isGalleryVisible) {
+        if (!isScrolling) {
+          rotation += autoRotateSpeed;
+        }
         
-        item.el.style.transform = `rotate${rotateAxis}(${item.angle}deg) translateZ(${radius}px)`;
-        item.el.style.opacity = opacity;
-      });
+        const isMobile = window.innerWidth <= 768;
+        const rotateAxis = isMobile ? 'X' : 'Y';
+        const offsetZ = isMobile ? -250 : 0;
+        
+        galleryContainer.style.transform = `translateZ(${offsetZ}px) rotate${rotateAxis}(${rotation}deg)`;
+        const totalRotation = rotation % 360;
+        
+        itemElements.forEach(item => {
+          const relativeAngle = (item.angle + totalRotation + 360) % 360;
+          const normalizedAngle = Math.abs(relativeAngle > 180 ? 360 - relativeAngle : relativeAngle);
+          const opacity = Math.max(0.3, 1 - (normalizedAngle / 180));
+          
+          item.el.style.transform = `rotate${rotateAxis}(${item.angle}deg) translateZ(${radius}px)`;
+          item.el.style.opacity = opacity;
+        });
+      }
       
       requestAnimationFrame(autoRotate);
     }
