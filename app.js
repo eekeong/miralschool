@@ -512,7 +512,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "4.jpg", "5-1.jpg", "6.jpg", "64.jpg", "65.jpg", "7.jpg", "9.jpg"
     ];
     
-    let radius = window.innerWidth <= 768 ? 500 : 650;
+    let radius = window.innerWidth <= 768 ? 490 : 650;
     const anglePerItem = 360 / olympicsImages.length;
     
     const itemElements = olympicsImages.map((imgName, i) => {
@@ -588,7 +588,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // Handle resize
     window.addEventListener('resize', () => {
-      radius = window.innerWidth <= 768 ? 500 : 650;
+      radius = window.innerWidth <= 768 ? 490 : 650;
     });
   }
 
