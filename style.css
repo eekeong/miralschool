@@ -1955,10 +1955,10 @@ section {
 
 @media (max-width: 768px) {
   .gallery-item {
-    width: calc(100vw - 20px);
-    height: 230px;
-    margin-left: calc(-50vw + 10px);
-    margin-top: -115px;
+    width: calc(100vw - 40px);
+    height: 210px;
+    margin-left: calc(-50vw + 20px);
+    margin-top: -105px;
   }
   
   .olympics-header {
@@ -2040,6 +2040,18 @@ section {
     height: 130px;
     padding: 16px;
   }
+  .awards-marquee-wrapper {
+    gap: 4px;
+  }
+  .awards-marquee {
+    gap: 4px;
+    animation-name: scroll-x-mobile;
+  }
+}
+
+@keyframes scroll-x-mobile {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(-100% - 4px)); }
 }
 
 /* Clients Love Us / Testimonials */
