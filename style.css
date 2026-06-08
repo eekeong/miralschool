@@ -3279,3 +3279,6 @@ select.form-input {
   box-shadow: 0 0 20px rgba(223, 15, 18, 0.5), 0 0 40px rgba(223, 15, 18, 0.3);
   transform: scale(1.02);
 }
+
+@media (max-width: 768px) { .cobe-sticker { display: none !important; } }
+@supports not (bottom: anchor(top)) { .cobe-sticker { display: none !important; } }
