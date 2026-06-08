@@ -1287,14 +1287,13 @@ section {
 }
 
 .course-card .feature-item {
-  background: rgba(255,255,255,0.86);
-  border: 1.5px solid var(--theme-feat-border);
-  border-radius: 18px;
-  padding: 10px 10px;
+  background: transparent;
+  border: none;
+  padding: 5px 10px;
   display: flex;
   align-items: center;
   gap: 12px;
-  box-shadow: 0 8px 18px rgba(0,0,0,0.04);
+  box-shadow: none;
 }
 
 .course-card .feature-icon {
