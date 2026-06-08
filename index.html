@@ -987,43 +987,53 @@
 
       const container = canvas.parentElement;
 
-      const isMobile = window.innerWidth <= 768;
-      const supportsAnchor = CSS.supports ? (CSS.supports('position-anchor', '--test') || CSS.supports('bottom', 'anchor(top)')) : false;
-
-      // Only inject CSS anchor stickers on supported desktop browsers to prevent floating bug
-      if (!isMobile && supportsAnchor) {
-        // Create sticker elements dynamically
-        markers.forEach((m, i) => {
-          const idSafe = m.id.replace(/\s+/g, '-');
-          const div = document.createElement("div");
-          div.className = "cobe-sticker";
-          div.id = `sticker-${idSafe}`;
-          
-          const img = document.createElement("img");
-          img.src = `assets/flags/${m.id}.png`;
-          img.alt = `${m.id} flag`;
-          img.style.width = "33px";
-          img.style.height = "33px";
-          img.style.borderRadius = "50%";
-          img.style.border = "2px solid white";
-          img.style.objectFit = "cover";
-          img.style.boxShadow = "0 2px 4px rgba(0,0,0,0.2)";
-          div.appendChild(img);
-          
-          // Setup initial styles
-          Object.assign(div.style, {
-            positionAnchor: `--cobe-${idSafe}`,
-            bottom: "anchor(top)",
-            left: "anchor(center)",
-            translate: "-50% 0",
-            transform: `rotate(${[-8, 6, -4, 10][i % 4]}deg)`,
-            filter: "drop-shadow(0 4px 6px rgba(0,0,0,0.3))",
-            opacity: `var(--cobe-visible-${idSafe}, 0)`,
-          });
-
-          container.appendChild(div);
-        });
+      function latLongToVector3(lat, lon) {
+        const phi = (lat * Math.PI) / 180;
+        const theta = ((lon - 180) * Math.PI) / 180;
+        const x = -Math.cos(phi) * Math.cos(theta);
+        const y = Math.sin(phi);
+        const z = Math.cos(phi) * Math.sin(theta);
+        return {x, y, z};
       }
+
+      const markerVectors = markers.map(m => {
+        return {
+          idSafe: m.id.replace(/\s+/g, '-'),
+          vector: latLongToVector3(m.location[0], m.location[1])
+        };
+      });
+
+      // Create sticker elements dynamically for ALL browsers
+      markers.forEach((m, i) => {
+        const idSafe = m.id.replace(/\s+/g, '-');
+        const div = document.createElement("div");
+        div.className = "cobe-sticker";
+        div.id = `sticker-${idSafe}`;
+        
+        const img = document.createElement("img");
+        img.src = `assets/flags/${m.id}.png`;
+        img.alt = `${m.id} flag`;
+        img.style.width = "33px";
+        img.style.height = "33px";
+        img.style.borderRadius = "50%";
+        img.style.border = "2px solid white";
+        img.style.objectFit = "cover";
+        img.style.boxShadow = "0 2px 4px rgba(0,0,0,0.2)";
+        div.appendChild(img);
+        
+        // Setup initial styles (no CSS anchor positioning)
+        Object.assign(div.style, {
+          position: "absolute",
+          translate: "-50% -120%", // shift up slightly so flag points to dot
+          transform: `rotate(${[-8, 6, -4, 10][i % 4]}deg)`,
+          filter: "drop-shadow(0 4px 6px rgba(0,0,0,0.3))",
+          opacity: "0",
+          transition: "opacity 0.2s ease",
+          zIndex: "10"
+        });
+
+        container.appendChild(div);
+      });
 
       let globe = null;
       let animationId = null;
@@ -1098,9 +1108,42 @@
         function animate() {
           if (isGlobeVisible) {
             if (!isPaused) phi += speed;
+            const currentPhi = phi + phiOffset + dragOffset.phi;
+            const currentTheta = 0.2 + thetaOffset + dragOffset.theta;
+
             globe.update({
-              phi: phi + phiOffset + dragOffset.phi,
-              theta: 0.2 + thetaOffset + dragOffset.theta,
+              phi: currentPhi,
+              theta: currentTheta,
+            });
+
+            // Update DOM markers position
+            const radius = canvas.offsetWidth / 2;
+            markerVectors.forEach(m => {
+              const v = m.vector;
+              
+              // Rotate around Y axis
+              let rx = v.x * Math.cos(currentPhi) + v.z * Math.sin(currentPhi);
+              let ry = v.y;
+              let rz = -v.x * Math.sin(currentPhi) + v.z * Math.cos(currentPhi);
+
+              // Rotate around X axis
+              let x2 = rx;
+              let y2 = ry * Math.cos(currentTheta) - rz * Math.sin(currentTheta);
+              let z2 = ry * Math.sin(currentTheta) + rz * Math.cos(currentTheta);
+
+              const el = document.getElementById(`sticker-${m.idSafe}`);
+              if (el) {
+                // Determine visibility (z2 > 0 means front)
+                if (z2 > 0) {
+                  const screenX = radius + x2 * radius;
+                  const screenY = radius - y2 * radius;
+                  el.style.left = `${screenX}px`;
+                  el.style.top = `${screenY}px`;
+                  el.style.opacity = "1";
+                } else {
+                  el.style.opacity = "0";
+                }
+              }
             });
           }
           animationId = requestAnimationFrame(animate);
