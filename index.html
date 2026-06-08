@@ -1024,7 +1024,7 @@
         // Setup initial styles (no CSS anchor positioning)
         Object.assign(div.style, {
           position: "absolute",
-          translate: "-50% -120%", // shift up slightly so flag points to dot
+          translate: "-50% -50%",
           transform: `rotate(${[-8, 6, -4, 10][i % 4]}deg)`,
           filter: "drop-shadow(0 4px 6px rgba(0,0,0,0.3))",
           opacity: "0",
@@ -1091,7 +1091,7 @@
           markerColor: [0.85, 0.35, 0.6],
           glowColor: [0.94, 0.93, 0.91],
           markerElevation: 0,
-          markers: markers.map((m) => ({ location: m.location, size: window.innerWidth <= 768 ? 0.015 : 0.03, id: m.id.replace(/\s+/g, '-') })),
+          markers: markers.map((m) => ({ location: m.location, size: 0.03, id: m.id.replace(/\s+/g, '-') })),
           arcs: [],
           arcColor: [0.9, 0.4, 0.7],
           arcWidth: 0.5,
@@ -1117,7 +1117,10 @@
             });
 
             // Update DOM markers position
-            const radius = canvas.offsetWidth / 2;
+            const width = canvas.offsetWidth;
+            const halfWidth = width / 2;
+            const sphereRadius = width * 0.4; // COBE draws the sphere at 80% of width
+            
             markerVectors.forEach(m => {
               const v = m.vector;
               
@@ -1135,8 +1138,8 @@
               if (el) {
                 // Determine visibility (z2 > 0 means front)
                 if (z2 > 0) {
-                  const screenX = radius + x2 * radius;
-                  const screenY = radius - y2 * radius;
+                  const screenX = halfWidth + x2 * sphereRadius;
+                  const screenY = halfWidth - y2 * sphereRadius;
                   el.style.left = `${screenX}px`;
                   el.style.top = `${screenY}px`;
                   el.style.opacity = "1";
