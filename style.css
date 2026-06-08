@@ -1301,12 +1301,12 @@ section {
   width: 29px;
   height: 29px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--theme-icon-grad-1), var(--theme-icon-grad-2));
-  color: white;
+  background: transparent;
+  color: #10b981;
   display: grid;
   place-items: center;
-  font-size: 16px;
-  font-weight: 800;
+  font-size: 20px;
+  font-weight: bold;
   flex-shrink: 0;
 }
 
@@ -1314,7 +1314,7 @@ section {
   font-size: 16px;
   color: #1b2519;
   margin-bottom: 0px;
-  font-weight: 800;
+  font-weight: 500;
 }
 
 .course-card .feature-text p {
