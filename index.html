@@ -987,37 +987,43 @@
 
       const container = canvas.parentElement;
 
-      // Create sticker elements dynamically
-      markers.forEach((m, i) => {
-        const idSafe = m.id.replace(/\s+/g, '-');
-        const div = document.createElement("div");
-        div.className = "cobe-sticker";
-        div.id = `sticker-${idSafe}`;
-        
-        const img = document.createElement("img");
-        img.src = `assets/flags/${m.id}.png`;
-        img.alt = `${m.id} flag`;
-        img.style.width = "33px";
-        img.style.height = "33px";
-        img.style.borderRadius = "50%";
-        img.style.border = "2px solid white";
-        img.style.objectFit = "cover";
-        img.style.boxShadow = "0 2px 4px rgba(0,0,0,0.2)";
-        div.appendChild(img);
-        
-        // Setup initial styles
-        Object.assign(div.style, {
-          positionAnchor: `--cobe-${idSafe}`,
-          bottom: "anchor(top)",
-          left: "anchor(center)",
-          translate: "-50% 0",
-          transform: `rotate(${[-8, 6, -4, 10][i % 4]}deg)`,
-          filter: "drop-shadow(0 4px 6px rgba(0,0,0,0.3))",
-          opacity: `var(--cobe-visible-${idSafe}, 0)`,
-        });
+      const isMobile = window.innerWidth <= 768;
+      const supportsAnchor = CSS.supports ? (CSS.supports('position-anchor', '--test') || CSS.supports('bottom', 'anchor(top)')) : false;
 
-        container.appendChild(div);
-      });
+      // Only inject CSS anchor stickers on supported desktop browsers to prevent floating bug
+      if (!isMobile && supportsAnchor) {
+        // Create sticker elements dynamically
+        markers.forEach((m, i) => {
+          const idSafe = m.id.replace(/\s+/g, '-');
+          const div = document.createElement("div");
+          div.className = "cobe-sticker";
+          div.id = `sticker-${idSafe}`;
+          
+          const img = document.createElement("img");
+          img.src = `assets/flags/${m.id}.png`;
+          img.alt = `${m.id} flag`;
+          img.style.width = "33px";
+          img.style.height = "33px";
+          img.style.borderRadius = "50%";
+          img.style.border = "2px solid white";
+          img.style.objectFit = "cover";
+          img.style.boxShadow = "0 2px 4px rgba(0,0,0,0.2)";
+          div.appendChild(img);
+          
+          // Setup initial styles
+          Object.assign(div.style, {
+            positionAnchor: `--cobe-${idSafe}`,
+            bottom: "anchor(top)",
+            left: "anchor(center)",
+            translate: "-50% 0",
+            transform: `rotate(${[-8, 6, -4, 10][i % 4]}deg)`,
+            filter: "drop-shadow(0 4px 6px rgba(0,0,0,0.3))",
+            opacity: `var(--cobe-visible-${idSafe}, 0)`,
+          });
+
+          container.appendChild(div);
+        });
+      }
 
       let globe = null;
       let animationId = null;
