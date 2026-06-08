@@ -1003,6 +1003,9 @@
         };
       });
 
+      const isMobile = window.innerWidth <= 768;
+      const supportsAnchor = CSS.supports ? (CSS.supports('position-anchor', '--test') || CSS.supports('bottom', 'anchor(top)')) : false;
+
       // Create sticker elements dynamically for ALL browsers
       markers.forEach((m, i) => {
         const idSafe = m.id.replace(/\s+/g, '-');
@@ -1021,16 +1024,29 @@
         img.style.boxShadow = "0 2px 4px rgba(0,0,0,0.2)";
         div.appendChild(img);
         
-        // Setup initial styles (no CSS anchor positioning)
-        Object.assign(div.style, {
-          position: "absolute",
-          translate: "-50% -50%",
-          transform: `rotate(${[-8, 6, -4, 10][i % 4]}deg)`,
-          filter: "drop-shadow(0 4px 6px rgba(0,0,0,0.3))",
-          opacity: "0",
-          transition: "opacity 0.2s ease",
-          zIndex: "10"
-        });
+        if (!isMobile && supportsAnchor) {
+          // Original Desktop Code: Uses CSS Anchors natively supported by COBE
+          Object.assign(div.style, {
+            positionAnchor: `--cobe-${idSafe}`,
+            bottom: "anchor(top)",
+            left: "anchor(center)",
+            translate: "-50% 0",
+            transform: `rotate(${[-8, 6, -4, 10][i % 4]}deg)`,
+            filter: "drop-shadow(0 4px 6px rgba(0,0,0,0.3))",
+            opacity: `var(--cobe-visible-${idSafe}, 0)`,
+          });
+        } else {
+          // Mobile Fallback: Uses manual JS projection
+          Object.assign(div.style, {
+            position: "absolute",
+            translate: "-50% -50%",
+            transform: `rotate(${[-8, 6, -4, 10][i % 4]}deg)`,
+            filter: "drop-shadow(0 4px 6px rgba(0,0,0,0.3))",
+            opacity: "0",
+            transition: "opacity 0.2s ease",
+            zIndex: "10"
+          });
+        }
 
         container.appendChild(div);
       });
@@ -1116,38 +1132,40 @@
               theta: currentTheta,
             });
 
-            // Update DOM markers position
-            const width = canvas.offsetWidth;
-            const halfWidth = width / 2;
-            const sphereRadius = width * 0.4; // COBE draws the sphere at 80% of width
-            
-            markerVectors.forEach(m => {
-              const v = m.vector;
+            // Update DOM markers position ONLY for JS fallback
+            if (isMobile || !supportsAnchor) {
+              const width = canvas.offsetWidth;
+              const halfWidth = width / 2;
+              const sphereRadius = width * 0.4; // COBE draws the sphere at 80% of width
               
-              // Rotate around Y axis
-              let rx = v.x * Math.cos(currentPhi) + v.z * Math.sin(currentPhi);
-              let ry = v.y;
-              let rz = -v.x * Math.sin(currentPhi) + v.z * Math.cos(currentPhi);
+              markerVectors.forEach(m => {
+                const v = m.vector;
+                
+                // Rotate around Y axis
+                let rx = v.x * Math.cos(currentPhi) + v.z * Math.sin(currentPhi);
+                let ry = v.y;
+                let rz = -v.x * Math.sin(currentPhi) + v.z * Math.cos(currentPhi);
 
-              // Rotate around X axis
-              let x2 = rx;
-              let y2 = ry * Math.cos(currentTheta) - rz * Math.sin(currentTheta);
-              let z2 = ry * Math.sin(currentTheta) + rz * Math.cos(currentTheta);
+                // Rotate around X axis
+                let x2 = rx;
+                let y2 = ry * Math.cos(currentTheta) - rz * Math.sin(currentTheta);
+                let z2 = ry * Math.sin(currentTheta) + rz * Math.cos(currentTheta);
 
-              const el = document.getElementById(`sticker-${m.idSafe}`);
-              if (el) {
-                // Determine visibility (z2 > 0 means front)
-                if (z2 > 0) {
-                  const screenX = halfWidth + x2 * sphereRadius;
-                  const screenY = halfWidth - y2 * sphereRadius;
-                  el.style.left = `${screenX}px`;
-                  el.style.top = `${screenY}px`;
-                  el.style.opacity = "1";
-                } else {
-                  el.style.opacity = "0";
+                const el = document.getElementById(`sticker-${m.idSafe}`);
+                if (el) {
+                  // Determine visibility (z2 > 0 means front)
+                  if (z2 > 0) {
+                    const screenX = halfWidth + x2 * sphereRadius;
+                    const screenY = halfWidth - y2 * sphereRadius;
+                    el.style.left = `${screenX}px`;
+                    el.style.top = `${screenY}px`;
+                    el.style.opacity = "1";
+                  } else {
+                    el.style.opacity = "0";
+                  }
                 }
-              }
-            });
+              });
+            }
           }
           animationId = requestAnimationFrame(animate);
         }

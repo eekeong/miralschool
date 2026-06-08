@@ -3280,5 +3280,3 @@ select.form-input {
   transform: scale(1.02);
 }
 
-@media (max-width: 768px) { .cobe-sticker { display: none !important; } }
-@supports not (bottom: anchor(top)) { .cobe-sticker { display: none !important; } }
